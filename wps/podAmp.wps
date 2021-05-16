@@ -1,0 +1,116 @@
+# podAmp Rockbox theme
+#
+# Theme made by Georg Gadinger <nilsding@nilsding.org> in 2021.
+# Licensed under CC BY-NC-SA
+
+# Disable status bar
+%wd
+# Set backdrop
+%X(wps.bmp)
+
+####################
+# Fonts and images #
+####################
+%Fl(2,06-WinAmp2.fnt)
+
+%xl(seekbar, seekbar.bmp, 0, 0)
+%xl(sbbd, seekbar_backdrop.bmp, 0, 0)
+%xl(volume, volume.bmp, 0, 0)
+%xl(volume_active, volume_active.bmp, 0, 0)
+%xl(volbd, volume_backdrop.bmp, 0, 0)
+%xl(numbers, numbers.bmp, 0, 0, 11)
+%xl(playpaus, playpaus.bmp, 0, 0, 9)
+%xl(buffering, buffering.bmp, 0, 0, 2)
+
+#############
+# Viewports #
+#############
+# Display volume if there's a change in volume, infotext otherwise
+%?mv<%Vd(infovol)|%Vd(infoscroller)>
+%Vd(kbps)
+%Vd(khz)
+# Same deal as before, but with the active volume slider
+%?mv<%Vd(volume_active)|%Vd(volume)>
+# If shuffle is active, render the "active LED" part of the shuffle button
+%?if(%ps, =, s)<%Vd(shuffle_active)>
+%Vd(seekbar)
+
+# TODO: figure out how rockbox handles tracks that are >1 hour in length
+# for now the display will be cut off on tracks longer than 99:59mins
+#%Vd(timedigit1)
+%Vd(timedigit2)
+%Vd(timedigit3)
+%Vd(timedigit4)
+%Vd(timedigit5)
+
+%Vd(playpaus)
+%?if(%mp, =, 2)<%Vd(buffering)>
+
+########################
+# Current time in song #
+########################
+# first timedigit skipped, see TODO above
+#%Vl(timedigit1, 34, 21, 9, 13, -)
+#%xd(numbers, %ss(-1, 1, %pc, number))
+
+%Vl(timedigit2, 46, 21, 9, 13, -)
+# HACK: need to compare with the substring of the entire string of %pc, as
+# %?if turns %pc into a number (seconds) otherwise.
+%?if(%ss(0, 4, %pc), =, %ss(0, -, %pc))<%xd(numbers, 1)|%xd(numbers, %ss(0, 1, %pc, number))>
+
+%Vl(timedigit3, 58, 21, 9, 13, -)
+%?if(%ss(0, 4, %pc), =, %ss(0, -, %pc))<%xd(numbers, %ss(0, 1, %pc, number))|%xd(numbers, %ss(1, 1, %pc, number))>
+
+%Vl(timedigit4, 76, 21, 9, 13, -)
+%?if(%ss(0, 4, %pc), =, %ss(0, -, %pc))<%xd(numbers, %ss(2, 1, %pc, number))|%xd(numbers, %ss(3, 1, %pc, number))>
+
+%Vl(timedigit5, 88, 21, 9, 13, -)
+%?if(%ss(0, 4, %pc), =, %ss(0, -, %pc))<%xd(numbers, %ss(3, 1, %pc, number))|%xd(numbers, %ss(4, 1, %pc, number))>
+
+#####################
+# Status indicators #
+#####################
+%Vl(playpaus, 24, 23, 9, 9, -)
+%xd(playpaus, %mp)
+
+%Vl(buffering, 22, 23, 3, 9, -)
+%?if(%lh, =, h)<%xd(buffering, 2)|%xd(buffering, 1)>
+
+#####################
+# Track information #
+#####################
+# current volume (displayed on change)
+%Vl(infovol, 12, 43, 115, 8, 2)%Vf(3)%Vb(0)
+Volume: %?if(%pv, >, 0)<+|>%pvdB
+
+# current track
+%Vl(infoscroller, 12, 43, 115, 8, 2)%Vf(3)%Vb(0)
+%s%pp. %?ia<%ia - |%?iA<%iA - |>>%?it<%it|%fn> - (%pt)  ***
+
+# bitrate
+%Vl(kbps, 10, 58, 16, 8, 2)%Vf(3)%Vb(0)
+%ar%fb
+
+# sample rate
+%Vl(khz, 55, 58, 11, 8, 2)%Vf(3)%Vb(0)
+%ar%fk
+
+##############
+# Volume bar #
+##############
+%Vl(volume, 9, 74, 65, 11, -)
+%pv(0, 0, -, -, nobar, nofill, slider, volume, backdrop, volbd)
+%Vl(volume_active, 9, 74, 65, 11, -)
+%pv(0, 0, -, -, nobar, nofill, slider, volume_active, backdrop, volbd)
+
+#####################
+# Shuffle indicator #
+#####################
+%Vl(shuffle_active, 89, 77, 3, 2, -)%Vf(2)
+%dr(0, 0, -, -)
+
+##################
+# Track position #
+##################
+%Vl(seekbar, 9, 90, 121, 10, -)
+%pb(0, 0, -, -, nobar, nofill, slider, seekbar, backdrop, sbbd)

@@ -1,0 +1,13 @@
+GEM
+  remote: https://rubygems.org/
+  specs:
+    rmagick (4.1.2)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  rmagick (~> 4.1)
+
+BUNDLED WITH
+   2.1.4

@@ -1,0 +1,17 @@
+rockbox-theme-podamp
+====================
+
+This is a WPS (While Playing screen) for iPod minis running Rockbox that looks
+like the Winamp(r) main window.
+
+It comes in two variants, one with a light background, and one with a dark one.
+
+
+License
+-------
+
+This work is licensed under a Creative Commons
+Attribution-NonCommercial-ShareAlike 4.0 International License.
+
+Big shout out to Konsti (https://twitter.com/balkanfur) who suggested the
+"podAmp" name.
